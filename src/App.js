@@ -4,6 +4,8 @@ import Home from "./components/home";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom"
 import Shop from "./components/shop";
 import About from "./components/about";
+import Login from "./components/login";
+import Register from "./components/register";
 
 function App() {
 
@@ -30,6 +32,14 @@ function App() {
                 {
           path:'/about',
           element:<About/>
+        },
+        {
+          path:'/login',
+          element:<Login/>
+        },
+        {
+          path:'/register',
+          element:<Register/>
         }
       ]
     }
