@@ -1,15 +1,34 @@
 import Footer from "./components/footer";
 import Header from "./components/header";
 import Home from "./components/home";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom"
 
 function App() {
-  return (
-    <div className="relative h-fit">
-      <Header />
-      <Home/>
-      <Footer />
-    </div>
-  )
+
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: (
+        <>
+          <Header />
+          <Outlet />
+          <Footer />
+        </>
+      ),
+      errorElement: <div>404</div>,
+      children:[
+        {
+          path:'/',
+          element:<Home/>
+        }
+      ]
+    }
+
+  ])
+
+  return <RouterProvider router={router} />;
 }
+
+
 
 export default App;
