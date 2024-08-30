@@ -2,6 +2,8 @@ import Footer from "./components/footer";
 import Header from "./components/header";
 import Home from "./components/home";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom"
+import Shop from "./components/shop";
+import About from "./components/about";
 
 function App() {
 
@@ -20,6 +22,14 @@ function App() {
         {
           path:'/',
           element:<Home/>
+        },
+        {
+          path:'/shop',
+          element:<Shop/>
+        },
+                {
+          path:'/about',
+          element:<About/>
         }
       ]
     }
