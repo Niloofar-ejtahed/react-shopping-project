@@ -1,21 +1,29 @@
 import React from 'react'
 import { useEffect } from 'react'
 import ProductCard from './product-card'
+import UseAsync from '../hooks/useAsync'
 
 
 export default function Shop() {
 
+  const { getData, data, error } = UseAsync();
 
-useEffect(()=>{
-  fetch('https://fakestoreapi.com/products',{
-    method : 'Get',
-  }).then(res=>res.json())
-  .then(json=>console.log(json))
-})
-
+  useEffect(() => {
+    getData('https://fakestoreapi.com/products');
+  }, []);
+  
   return (
     <div>
-      <ProductCard/>
+      <section className="flex flex-wrap justify-between mx-4">
+        {data?.map((item)=>{
+          return(
+            <ProductCard
+            key={item.id +'card'}
+            cardData={item}
+            />)
+        })
+        }
+      </section>
     </div>
   )
 }
