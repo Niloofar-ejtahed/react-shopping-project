@@ -1,5 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react'
+import ProductCard from './product-card'
+
 
 export default function Shop() {
 
@@ -12,6 +14,8 @@ useEffect(()=>{
 })
 
   return (
-    <div>Shop</div>
+    <div>
+      <ProductCard/>
+    </div>
   )
 }
