@@ -6,6 +6,7 @@ import Shop from "./components/shop";
 import About from "./components/about";
 import Login from "./components/login";
 import Register from "./components/register";
+import ProductItem from "./components/product-item";
 
 function App() {
 
@@ -20,26 +21,30 @@ function App() {
         </>
       ),
       errorElement: <div>404</div>,
-      children:[
+      children: [
         {
-          path:'/',
-          element:<Home/>
+          path: '/',
+          element: <Home />
         },
         {
-          path:'/shop',
-          element:<Shop/>
-        },
-                {
-          path:'/about',
-          element:<About/>
+          path: '/shop',
+          element: <Shop />
         },
         {
-          path:'/login',
-          element:<Login/>
+          path: "/shop/:productId",
+          element: <ProductItem />,
         },
         {
-          path:'/register',
-          element:<Register/>
+          path: '/about',
+          element: <About />
+        },
+        {
+          path: '/login',
+          element: <Login />
+        },
+        {
+          path: '/register',
+          element: <Register />
         }
       ]
     }

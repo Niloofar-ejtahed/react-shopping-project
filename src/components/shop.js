@@ -13,7 +13,7 @@ export default function Shop() {
   }, []);
   
   return (
-    <div>
+    <div className='h-100 bg-neutral-200 p-4'>
       <section className="flex flex-wrap justify-between mx-4">
         {data?.map((item)=>{
           return(
