@@ -7,8 +7,13 @@ import About from "./components/about";
 import Login from "./components/login";
 import Register from "./components/register";
 import ProductItem from "./components/product-item";
+import { useState } from "react";
+import { UserContext } from "./context/user-context";
 
 function App() {
+
+  const [userName, setUserName] = useState()
+  const [password, setPassword] = useState()
 
   const router = createBrowserRouter([
     {
@@ -16,7 +21,9 @@ function App() {
       element: (
         <>
           <Header />
-          <Outlet />
+          <UserContext.Provider value={{ userName, password, setUserName, setPassword }}>
+            <Outlet />
+          </UserContext.Provider>
           <Footer />
         </>
       ),
