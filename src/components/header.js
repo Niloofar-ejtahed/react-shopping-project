@@ -46,8 +46,6 @@ export default function Header() {
                                     type: "changeLoginState",
                                     payload: {
                                         isLogin: false,
-                                        user: '',
-                                        pass: ''
                                     },
                                 })
                             }}>
