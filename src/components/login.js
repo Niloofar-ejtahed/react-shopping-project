@@ -1,10 +1,14 @@
 import React, { useContext } from 'react'
 import Input from '../tools/input'
 import { UserContext } from '../context/user-context'
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
 
   const value = useContext(UserContext);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   return (
     <>
@@ -19,25 +23,34 @@ export default function Login() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6" onSubmit={(e)=>{
+          <form action="#" method="POST" className="space-y-6" onSubmit={(e) => {
             e.preventDefault()
             value.setUserName()
             value.setPassword()
+            dispatch({
+              type: "changeLoginState",
+              payload: {
+                user: value.userName,
+                pass: value.password,
+                isLogin : true
+              },
+            })
+            navigate('/profile')
           }}>
-            <Input type={'text'} id={'input-1'} label={'User Name'}  required 
-            onChange={(event)=>{
-              value.userName = event.target.value
-            }} />
+            <Input type={'text'} id={'input-1'} label={'User Name'} required
+              onChange={(event) => {
+                value.userName = event.target.value
+              }} />
             <Input type={'password'} id={'input-2'} label={'Password'} required
-             onChange={(event)=>{
-              value.password = event.target.value
-            }} />
+              onChange={(event) => {
+                value.password = event.target.value
+              }} />
 
             <div>
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-             > Log in
+              > Log in
               </button>
             </div>
           </form>
