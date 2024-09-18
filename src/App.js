@@ -9,6 +9,9 @@ import Register from "./components/register";
 import ProductItem from "./components/product-item";
 import { useState } from "react";
 import { UserContext } from "./context/user-context";
+import { Provider } from "react-redux";
+import { Store } from "./redux/store";
+import Profile from "./components/user-profile";
 
 function App() {
 
@@ -19,13 +22,13 @@ function App() {
     {
       path: '/',
       element: (
-        <>
+        <Provider store={Store}>
           <Header />
           <UserContext.Provider value={{ userName, password, setUserName, setPassword }}>
             <Outlet />
           </UserContext.Provider>
           <Footer />
-        </>
+          </Provider>
       ),
       errorElement: <div>404</div>,
       children: [
@@ -48,6 +51,10 @@ function App() {
         {
           path: '/login',
           element: <Login />
+        },
+        {
+          path: '/profile',
+          element: <Profile />
         },
         {
           path: '/register',
