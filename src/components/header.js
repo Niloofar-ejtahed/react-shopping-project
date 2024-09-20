@@ -28,7 +28,10 @@ export default function Header() {
                         </NavLink>
                     </li>
                 </div>
-                <img src={require('../assets/header-logo.png')} alt='logo' className='w-40 mr-4' />
+                
+                <a href='/'>
+                    <img src={require('../assets/header-logo.png')} alt='logo' className='w-40 mr-4' role='button' />
+                </a>
 
                 <div className='flex'>
                     <li >
