@@ -5,13 +5,13 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom"
 import Shop from "./components/shop";
 import About from "./components/about";
 import Login from "./components/login";
-import Register from "./components/register";
 import ProductItem from "./components/product-item";
 import { useState } from "react";
 import { UserContext } from "./context/user-context";
 import { Provider } from "react-redux";
 import { Store } from "./redux/store";
 import Profile from "./components/user-profile";
+import Basket from "./components/basket";
 
 function App() {
 
@@ -24,9 +24,11 @@ function App() {
       element: (
         <Provider store={Store}>
           <Header />
+          <div style={{minHeight:'500px'}}>
           <UserContext.Provider value={{ userName, password, setUserName, setPassword }}>
             <Outlet />
           </UserContext.Provider>
+          </div>
           <Footer />
           </Provider>
       ),
@@ -57,8 +59,8 @@ function App() {
           element: <Profile />
         },
         {
-          path: '/register',
-          element: <Register />
+          path: '/basket',
+          element: <Basket />
         }
       ]
     }
