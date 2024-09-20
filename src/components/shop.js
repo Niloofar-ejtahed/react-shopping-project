@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import ProductCard from './product-card'
 import UseAsync from '../hooks/useAsync'
 import LoadingHOC from '../HOC/loadingHOC';
-import ProductCategory from './product-category';
 
 
 export default function Shop() {
@@ -21,12 +20,6 @@ export default function Shop() {
     <div className='h-100 bg-neutral-200 p-4 text-center px-14'>
 
       <LoadingHOC loading={loading}>
-
-        <div>
-
-          <ProductCategory />
-        </div>
-
         <section className="flex flex-wrap justify-between mx-4">
 
         </section>

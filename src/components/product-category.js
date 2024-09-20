@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import UseAsync from '../hooks/useAsync';
+import LoadingHOC from '../HOC/loadingHOC';
+
 
 export default function ProductCategory() {
 
@@ -26,21 +28,23 @@ export default function ProductCategory() {
     ]
 
     return (
-        <div className='flex grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-between'>
-            {data?.map((item, index) => {
-                return <a
-                    href={'shop/'+item.replace(/\s+/g, '-').toLowerCase()}
-                    id={item}
-                    key={item} role='button' className="mb-2 card bg-base-100 w-72 shadow-xl  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-90 hover:bg-gray-300 duration-300 ..."
-                >
-                    <figure className='h-80'>
-                        {images[index]}
-                    </figure>
-                    <div className="card-body py-5 px-5 flex">
-                        <h2 className="card-title mx-auto">{item}</h2>
-                    </div>
-                </a>
-            })}
-        </div>
+        <LoadingHOC loading={loading}>
+            <div className='flex grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-between'>
+                {data?.map((item, index) => {
+                    return <a
+                        href={'shop/' + item.replace(/\s+/g, '-').toLowerCase()}
+                        id={item}
+                        key={item} role='button' className="mb-2 card bg-base-100 w-72 shadow-xl  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-90 hover:bg-gray-300 duration-300 ..."
+                    >
+                        <figure className='h-80'>
+                            {images[index]}
+                        </figure>
+                        <div className="card-body py-5 px-5 flex">
+                            <h2 className="card-title mx-auto">{item}</h2>
+                        </div>
+                    </a>
+                })}
+            </div>
+        </LoadingHOC>
     )
 }
