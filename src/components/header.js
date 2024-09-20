@@ -5,19 +5,19 @@ import { NavLink } from 'react-router-dom'
 export default function Header() {
 
     const data = useSelector((state) => state.auth);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
     return (
-        <div className=''>
+        <div>
 
-            <ul className="flex justify-between menu menu-horizontal bg-base-200 w-full">
+            <ul className="flex justify-between menu menu-horizontal bg-base-200 w-full px-10">
                 <div className='flex'>
-                    <li>
+                    <li className='pr-1'>
                         <NavLink to={'/'}>
                             Home
                         </NavLink>
                     </li>
-                    <li>
+                    <li className='pr-1'>
                         <NavLink to={'/shop'}>
                             Shop
                         </NavLink>
@@ -28,17 +28,16 @@ export default function Header() {
                         </NavLink>
                     </li>
                 </div>
+                <img src={require('../assets/header-logo.png')} alt='logo' className='w-40 mr-4' />
 
                 <div className='flex'>
-
-                    <li>
+                    <li >
                         {!data?.isLogin ? (
-                            <NavLink to={'/login'}>
-                                <svg className="h-6 w-6 text-green-500"
+                            <NavLink to={'/login'} className={'p-2'}>
+                                <svg className="h-6 w-6"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />  <circle cx="12" cy="7" r="4" />
                                 </svg>
-                                Log in
                             </NavLink>
                         ) : (
                             <NavLink to={'/login'} onClick={() => {
@@ -58,13 +57,13 @@ export default function Header() {
 
                     </li>
 
-                    <li>
-                        <NavLink to={'/register'}>
-                            <svg className="h-6 w-6 text-sky-500" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" />  <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />  <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+                    <li className='pl-1'>
+                        <NavLink to={'/basket'} className={'p-2'}>
+                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
-                            Register
                         </NavLink>
+
                     </li>
                 </div>
             </ul>
