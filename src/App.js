@@ -12,6 +12,10 @@ import { Provider } from "react-redux";
 import { Store } from "./redux/store";
 import Profile from "./components/user-profile";
 import Basket from "./components/basket";
+import JeweleryProducts from "./components/jewelery-products";
+import ElectronicsProducts from "./components/electronics-products";
+import MenProducts from "./components/men's-products";
+import WomenProducts from "./components/women's-products";
 
 function App() {
 
@@ -45,6 +49,22 @@ function App() {
         {
           path: "/shop/:productId",
           element: <ProductItem />,
+        },
+        {
+          path: "/shop/jewelery",
+          element: <JeweleryProducts/>,
+        },
+        {
+          path: "/shop/electronics",
+          element: <ElectronicsProducts/>,
+        },
+        {
+          path: "/shop/men's-clothing",
+          element: <MenProducts/>,
+        },
+        {
+          path: "/shop/women's-clothing",
+          element: <WomenProducts/>,
         },
         {
           path: '/about',
