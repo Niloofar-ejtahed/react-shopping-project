@@ -10,9 +10,6 @@ export default function ProductCategory() {
 
     }, []);
 
-    const x = "../assets/headphone.avif";
-    const y = "../assets/luxurious-shiny-golden-chain_23-2149635271.jpg";
-
     const images = [
         <img
             src={require("../assets/headphone.avif")}
