@@ -4,8 +4,10 @@ export default function UseAsync() {
 
     const [data, setData] = useState();
     const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     function getData(api, method, body) {
+        setLoading(true)
         fetch(api, {
             method: method || 'GET',
             body: body
@@ -13,6 +15,7 @@ export default function UseAsync() {
             .then(res => res.json())
             .then((json) => {
                 setData(json);
+                setLoading(false)
             })
             .catch((err) => {
                 setError(err);
@@ -20,5 +23,5 @@ export default function UseAsync() {
 
     }
 
-    return{ getData , data , error}
+    return { getData, data, loading, error }
 }
