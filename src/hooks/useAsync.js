@@ -10,7 +10,11 @@ export default function UseAsync() {
         setLoading(true)
         fetch(api, {
             method: method || 'GET',
-            body: body
+            mode: 'cors',
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json",
+              }
         })
             .then(res => res.json())
             .then((json) => {
