@@ -16,6 +16,7 @@ import JeweleryProducts from "./components/jewelery-products";
 import ElectronicsProducts from "./components/electronics-products";
 import MenProducts from "./components/men's-products";
 import WomenProducts from "./components/women's-products";
+import Register from "./components/register";
 
 function App() {
 
@@ -73,6 +74,10 @@ function App() {
         {
           path: '/login',
           element: <Login />
+        },
+        {
+          path: '/register',
+          element: <Register />
         },
         {
           path: '/profile',
