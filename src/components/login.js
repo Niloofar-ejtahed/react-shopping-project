@@ -3,12 +3,15 @@ import Input from '../tools/input'
 import { UserContext } from '../context/user-context'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import UseAsync from '../hooks/useAsync';
 
 export default function Login() {
 
   const value = useContext(UserContext);
   const dispatch = useDispatch();
   const navigate = useNavigate()
+
+  const { getData, data} = UseAsync();
 
   return (
     <>
@@ -27,19 +30,27 @@ export default function Login() {
             e.preventDefault()
             value.setUserName()
             value.setPassword()
+            getData('https://api.escuelajs.co/api/v1/auth/login', 'POST', {
+              email: value.email,
+              password:  value.password,
+            });
+
             dispatch({
               type: "changeLoginState",
               payload: {
-                user: value.userName,
+                user: value.email,
                 pass: value.password,
-                isLogin : true
+                isLogin: true
               },
             })
+
+            localStorage.setItem('access_token' , data?.access_token)
+
             navigate('/profile')
           }}>
-            <Input type={'text'} id={'input-1'} label={'User Name'} required
+            <Input type={'email'} id={'input-1'} label={'Email'} required
               onChange={(event) => {
-                value.userName = event.target.value
+                value.email = event.target.value
               }} />
             <Input type={'password'} id={'input-2'} label={'Password'} required
               onChange={(event) => {
