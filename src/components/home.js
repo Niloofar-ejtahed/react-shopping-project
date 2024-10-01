@@ -41,7 +41,7 @@ export default function Home() {
             </div>
 
 
-            <div className='px-14'>
+            <div className='px-14 pt-10'>
                 <h1 className='text-2xl font-semibold py-6'>Popular Products</h1>
                 <LoadingHOC loading={loading}>
                     <section className="flex flex-wrap justify-between mx-4">
