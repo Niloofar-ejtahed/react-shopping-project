@@ -2,13 +2,14 @@ import React, { useEffect } from 'react'
 import UseAsync from '../hooks/useAsync';
 import ProductCard from './product-card';
 import LoadingHOC from '../HOC/loadingHOC';
+import { BASE_URL } from '../constant/url';
 
 export default function ElectronicsProducts() {
 
   const { getData, data, loading, error } = UseAsync();
 
   useEffect(() => {
-    getData('https://fakestoreapi.com/products/category/electronics');
+    getData(BASE_URL + 'products/category/electronics');
   }, []);
 
   return (

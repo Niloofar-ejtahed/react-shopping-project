@@ -1,20 +1,35 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Input from '../tools/input'
 import { UserContext } from '../context/user-context'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import UseAsync from '../hooks/useAsync';
+import { BASE_AUTH_URL } from '../constant/url';
 
 export default function Login() {
 
+  const { getData, data, error } = UseAsync();
   const value = useContext(UserContext);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const { getData, data} = UseAsync();
+  useEffect(() => {
+
+    if (data?.statusCode == 401) {
+      alert('Unauthorized')
+    }
+    if (data?.access_token) {
+      sessionStorage.setItem('access_token', data?.access_token)
+      // sessionStorage.setItem('userIsLogin', true)
+      navigate('/profile')
+    }
+  }, [data])
+
 
   return (
     <>
+
+      <h1>{error}</h1>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-10 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <svg className="h-12 w-12 text-gray-700 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -30,23 +45,20 @@ export default function Login() {
             e.preventDefault()
             value.setUserName()
             value.setPassword()
-            getData('https://api.escuelajs.co/api/v1/auth/login', 'POST', {
+            getData(BASE_AUTH_URL + 'api/v1/auth/login', 'POST', {
               email: value.email,
-              password:  value.password,
+              password: value.password,
             });
 
             dispatch({
               type: "changeLoginState",
               payload: {
-                user: value.email,
+                email: value.email,
                 pass: value.password,
                 isLogin: true
               },
             })
 
-            localStorage.setItem('access_token' , data?.access_token)
-
-            navigate('/profile')
           }}>
             <Input type={'email'} id={'input-1'} label={'Email'} required
               onChange={(event) => {

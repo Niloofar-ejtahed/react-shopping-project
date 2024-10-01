@@ -1,18 +1,38 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Input from '../tools/input'
 import { UserContext } from '../context/user-context';
 import { useDispatch } from 'react-redux';
 import UseAsync from '../hooks/useAsync';
 import { useNavigate } from 'react-router-dom';
+import { BASE_AUTH_URL } from '../constant/url';
 
 export default function Register() {
 
   const { getData, data } = UseAsync();
-  const [validEmail , setValidEmail] = useState();
+  const [validEmail, setValidEmail] = useState();
 
   const value = useContext(UserContext);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (data?.id) {
+      alert('You regestered successfuly.Please log in to your profile!')
+      dispatch({
+        type: "registerState",
+        payload: {
+          user: data?.name,
+          pass: data?.password,
+          email: data?.email,
+          id: data?.id,
+          isRegisterSuccessful: true
+        },
+      })
+      localStorage.setItem('userId' , data?.id)
+      navigate('/login')
+    }
+  }
+    , [data?.id])
 
 
   return (
@@ -33,44 +53,37 @@ export default function Register() {
             value.setUserName()
             value.setPassword()
 
-            getData('https://api.escuelajs.co/api/v1/users/is-available', 'POST', {
+            // getData(BASE_AUTH_URL + 'api/v1/users/is-available', 'POST', {
+            //   email: value.email,
+            // });
+
+            // if(data?.isAvailable===true){
+            //   setValidEmail('')
+
+            getData(BASE_AUTH_URL + 'api/v1/users/', 'POST', {
+              name: value.userName,
               email: value.email,
+              password: value.password,
+              avatar: 'https://picsum.photos/800',
             });
 
-            if(data?.isAvailable===true){
-              setValidEmail('')
-
-              getData('https://api.escuelajs.co/api/v1/users/', 'POST', {
-                name: value.userName,
-                email: value.email,
-                password: value.password,
-                avatar: 'https://picsum.photos/800',
-              });
-
-              dispatch({
-                type: "registerState",
-                payload: {
-                  user: value.userName,
-                  pass: value.password,
-                  email : value.email,
-                  isRegisterSuccessful: true
-                },
-              })
-  
-              data?.id ? navigate('/login') : console.log('nist')
-            }else{
-              setValidEmail('The email is already registered')
-            }
-            
 
 
-          }}>
+          }}
+          // }else{
+          //   setValidEmail('The email is already registered')
+          // }
+
+
+
+          // }}
+          >
             <Input type={'text'} id={'input-1'} label={'User Name'} required
               onChange={(event) => {
                 value.userName = event.target.value
               }} />
-               <Input type={'email'} id={'input-3'} label={'Email'} 
-               error={validEmail} required
+            <Input type={'email'} id={'input-3'} label={'Email'}
+              error={validEmail} required
               onChange={(event) => {
                 value.email = event.target.value
               }} />

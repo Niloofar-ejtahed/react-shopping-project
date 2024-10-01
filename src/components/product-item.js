@@ -1,29 +1,156 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import useAsync from "../hooks/useAsync";
+import { BASE_URL } from "../constant/url";
+import Rating from "./rating";
+import LoadingHOC from "../HOC/loadingHOC";
+import { UserContext } from "../context/user-context";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import BasketPopup from "./basket-popup";
+import { createPortal } from "react-dom";
 
 export default function ProductItem() {
-  const params = useParams();
 
-  const { getData, data, error } = useAsync();
+  const basketData = useSelector((state) => state.basket);
+
+  const [orderNum, setOrderNum] = useState(1);
+  const params = useParams();
+  const { getData, data, loading } = useAsync();
+  const navigate = useNavigate();
+
+  const [addToBasket, setAddToBasket] = useState(false);
+  const [showAddButton, setShowAddButton] = useState(true);
+
+  const sendRequest = (userId, date, products) => {
+    getData(BASE_URL + 'carts', 'POST', {
+      userId: userId,
+      date: date,
+      products: products
+    });
+  }
 
   useEffect(() => {
-    getData('https://fakestoreapi.com/products/' + params.productId);
+    console.log('avalesh', productData.current)
+
+    if (basketData.products.length > 0) {
+      basketData?.products.find(p => {
+        if (p.productId === +params.productId) {
+          console.log('دکمه حذف بشه')
+          setOrderNum(p.quantity);
+          setShowAddButton(false);
+        }
+
+      })
+      // setAddToBasket(true);
+      document.getElementById('my_modal_3')?.showModal()
+    }
+  }, [basketData.products]);
+
+  const value = useContext(UserContext);
+  const dispatch = useDispatch();
+
+  const productData = useRef(null)
+  useEffect(() => {
+    getData(BASE_URL + 'products/' + params.productId);
+
   }, []);
 
   return (
-    <div className="flex items-center">
-      <div>
-        <h2>{data?.title}</h2>
-        <p>{data?.description}</p>
-        <div className="flex items-center overflow-auto">
-          <span className="mx-2">{data?.rating?.count}</span>
+    <div className="h-100 text-center">
+      <LoadingHOC loading={loading}>
+        <div className="flex p-10">
+
+          <div className="w-1/4 ">
+            <img className="w-60 rounded-lg mx-auto" src={data?.image} />
+          </div>
+
+          <div className="w-3/4 text-left">
+            <h2 className="text-2xl font-semibold">{data?.title}</h2>
+            {/* <Rating rate={data?.rating?.rate} />
+          <p>{data?.rating?.rate}/5</p> */}
+            <h4 className='text-2xl font-medium py-4'>{data?.price}$</h4>
+            <p>{data?.description}</p>
+
+            <a onClick={() => {
+              navigate('/shop/' + data?.category.replace(/\s+/g, '-').toLowerCase())
+            }} className="mt-6 cursor-pointer bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">
+              {data?.category}
+            </a>
+
+
+            <button className="btn" disabled={orderNum == 1} onClick={(e) => {
+              setOrderNum((prev) => prev - 1);
+              dispatch({
+                type: "addToBasketState",
+                payload: {
+                  products: basketData.products.map((p) =>
+                    p.productId == +params?.productId ?
+                      productData.current = { productId: +params.productId, quantity: p.quantity - 1 }
+                      : p
+                  )
+                },
+              });
+            }}>-</button>
+
+            <p>{orderNum}</p>
+
+            <button className="btn" disabled={orderNum == 3} onClick={(e) => {
+              setOrderNum((prev) => prev + 1);
+              dispatch({
+                type: "addToBasketState",
+                payload: {
+                  products: basketData.products.map((p) =>
+
+                    p.productId == +params?.productId ?
+                      productData.current = { productId: +params.productId, quantity: p.quantity + 1 }
+                      : p
+                  )
+                },
+              });
+            }}>+</button>
+
+            {showAddButton == true ?
+              ( <button className={'btn'} onClick={(e) => {
+                productData.current = { productId: +params.productId, quantity: orderNum }
+                let currentDate = moment().format('YYYY-MM-DD');
+                dispatch({
+                  type: "addToBasketState",
+                  payload: {
+                    userId: +localStorage.getItem('userId'),
+                    date: currentDate,
+                    products: [...basketData.products, productData.current]
+                  },
+                });
+  
+                // sendRequest(+localStorage.getItem('userId'),currentDate,[...basketData.products, productData.current])
+  
+  
+                // navigate('/basket')
+                setAddToBasket(true)
+  
+              }}>add to cart</button>)
+                : ''
+            }
+
+           
+
+
+
+            {createPortal(
+              <div id="create-portal" >
+                {addToBasket == true ? (
+                  <BasketPopup productData={data} quantity={orderNum} />
+                ) : ''}
+
+              </div>,
+              document.body
+
+            )}
+
+          </div>
         </div>
-        <span className="my-5 mx-1 rounded-md	 bg-red-100 text-red-400 p-3 inline-block">
-          {data?.category}
-        </span>
-      </div>
-      <img className="w-24" src={data?.image} />
+      </LoadingHOC>
     </div>
   );
 }

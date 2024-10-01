@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import UseAsync from '../hooks/useAsync';
 import LoadingHOC from '../HOC/loadingHOC';
+import { BASE_URL } from '../constant/url';
 
 
 export default function ProductCategory() {
@@ -8,7 +9,7 @@ export default function ProductCategory() {
     const { getData, data, loading, error } = UseAsync();
 
     useEffect(() => {
-        getData('https://fakestoreapi.com/products/categories');
+        getData(BASE_URL +'products/categories');
 
     }, []);
 
@@ -34,7 +35,7 @@ export default function ProductCategory() {
                     return <a
                         href={'shop/' + item.replace(/\s+/g, '-').toLowerCase()}
                         id={item}
-                        key={item} role='button' className="mb-2 card bg-base-100 w-72 shadow-xl  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-90 hover:bg-gray-300 duration-300 ..."
+                        key={item} className="mb-2 card bg-base-100 w-68 shadow-xl cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-95 hover:bg-gray-300 duration-300 mx-4"
                     >
                         <figure className='h-80'>
                             {images[index]}

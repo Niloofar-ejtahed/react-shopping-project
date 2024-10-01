@@ -28,14 +28,17 @@ function App() {
       path: '/',
       element: (
         <Provider store={Store}>
-          <Header />
-          <div style={{minHeight:'500px'}}>
-          <UserContext.Provider value={{ userName, password, setUserName, setPassword }}>
-            <Outlet />
-          </UserContext.Provider>
+          <div className="container">
+            <Header />
+            <div style={{ minHeight: '500px' , backgroundColor: '#EEEEEE' }}>
+              <UserContext.Provider value={{ userName, password, setUserName, setPassword }}>
+                <Outlet />
+              </UserContext.Provider>
+            </div>
+            <Footer />
           </div>
-          <Footer />
-          </Provider>
+
+        </Provider>
       ),
       errorElement: <div>404</div>,
       children: [
@@ -53,19 +56,19 @@ function App() {
         },
         {
           path: "/shop/jewelery",
-          element: <JeweleryProducts/>,
+          element: <JeweleryProducts />,
         },
         {
           path: "/shop/electronics",
-          element: <ElectronicsProducts/>,
+          element: <ElectronicsProducts />,
         },
         {
           path: "/shop/men's-clothing",
-          element: <MenProducts/>,
+          element: <MenProducts />,
         },
         {
           path: "/shop/women's-clothing",
-          element: <WomenProducts/>,
+          element: <WomenProducts />,
         },
         {
           path: '/about',

@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import ProductCard from './product-card'
 import UseAsync from '../hooks/useAsync'
 import LoadingHOC from '../HOC/loadingHOC';
+import { BASE_URL } from '../constant/url';
 
 
 export default function Shop() {
@@ -10,7 +11,7 @@ export default function Shop() {
   const { getData, data, loading, error } = UseAsync();
 
   useEffect(() => {
-    getData('https://fakestoreapi.com/products');
+    getData(BASE_URL + 'products');
 
   }, []);
 

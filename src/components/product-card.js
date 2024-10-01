@@ -8,19 +8,23 @@ export default function ProductCard({ cardData }) {
     const navigate = useNavigate();
 
     return (
-        <div className="card card-compact bg-base-100 w-72 p-4 shadow-xl m-1 my-4">
+        <div className="card card-compact bg-base-100 w-64 p-2 shadow-xl m-1 my-4 shadow-xl  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-95 duration-300">
             <figure>
                 <img src={cardData.image} className="h-32" />
             </figure>
-            <div className="card-body">
-                <h6 className="card-title">{truncate(cardData.title, 30)}</h6>
+            <div className="card-body p-2 text-left">
+                <p className="card-title"  style={{fontSize:'16px'}}>{truncate(cardData.title, 22)}</p>
                 <p>{truncate(cardData.description, 60)}</p>
-                <Rating rate={cardData.rating.rate}/>
                 <div className="card-actions justify-between">
-                    <h4 className='font-medium'>{cardData.price}$</h4>
-                    <button className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={() => {
+                    <div>
+                        <Rating rate={cardData.rating.rate} />
+                        <h4 className='font-medium'>{cardData.price}$</h4>
+                    </div>
+
+                    <button className="px-3 py-2 mt-2 text-xs font-medium text-center text-white rounded-lg" onClick={() => {
                         navigate("/shop/" + cardData.id);
-                    }}>Buy Now</button>
+                    }} style={{backgroundColor:'#DC5F00'}}>Buy Now</button>
+
                 </div>
             </div>
         </div>
