@@ -4,16 +4,25 @@ import { NavLink } from 'react-router-dom'
 
 export default function Header() {
 
-    const data = useSelector((state) => state.auth);
-    const dispatch = useDispatch();
+    const authData = useSelector((state) => state.auth);
+    const basketData = useSelector((state) => state.basket);
     const [isLogin, setIsLogin] = useState(false);
+    const [proNum, setProNum] = useState();
+    const dispatch = useDispatch();
 
     //switch login ang logout buttons
     useEffect(() => {
-        if (sessionStorage.access_token != undefined || data?.isLogin == true) {
+        if (sessionStorage.access_token !== undefined || authData?.isLogin === true) {
             setIsLogin(true)
         }
-    }, [data?.isLogin])
+    }, [authData?.isLogin])
+
+    //get Numbers of products
+    useEffect(() => {
+        if (basketData?.products.length > 0) {
+            setProNum(basketData.products.length)
+        }
+    }, [basketData?.products])
 
     return (
         <div>
@@ -43,7 +52,7 @@ export default function Header() {
 
                 <div className='flex'>
                     <li >
-                        {isLogin == false ? (
+                        {isLogin === false ? (
                             <NavLink to={'/login'} className={'p-2'}>
                                 <svg className="h-6 w-6"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -76,12 +85,24 @@ export default function Header() {
                             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
-                        </NavLink>
 
-                        <p  onClick={() => {
-                        document.getElementById('my_modal_3')?.showModal()
-                        console.log('header',document.getElementById('my_modal_3'))
-                    }}>me</p>
+                            {proNum > 0 ? (<p className="rounded-full bg-orange-500 p-2 text-center"
+                                style={{
+                                    width: '20px',
+                                    height: '20px',
+                                    fontSize: '14px',
+                                    position: 'absolute',
+                                    top: '23px',
+                                    right: '-2px'
+                                }}>
+                                <span style={{
+                                    position: 'absolute',
+                                    top: '0',
+                                    right: '6px'
+                                }}>{proNum}</span>
+                            </p>) : ''}
+
+                        </NavLink>
 
                     </li>
                 </div>
