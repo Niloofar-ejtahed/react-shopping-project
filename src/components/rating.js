@@ -4,10 +4,10 @@ export default function Rating({ rate }) {
 
   const mainRate = Math.ceil(rate);
   const ratedList = Array.from(new Array(mainRate));
-
+  
   return (
     <div className="rating rating-xs">
-      {ratedList.map((item, index) => {
+      {ratedList?.map((item, index) => {
         return (
           <div key={index + 's'}>
             <input

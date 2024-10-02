@@ -67,8 +67,15 @@ export default function ProductItem() {
 
           <div className="w-3/4 text-left">
             <h2 className="text-2xl font-semibold">{data?.title}</h2>
-            {/* <Rating rate={data?.rating?.rate} />
-          <p>{data?.rating?.rate}/5</p> */}
+
+            {data?.rating ?
+              (<div>
+                <Rating rate={data?.rating.rate} />
+                <p>{data?.rating?.rate}/5</p>
+              </div>):''}
+
+
+
             <h4 className='text-2xl font-medium py-4'>{data?.price}$</h4>
             <p>{data?.description}</p>
 
@@ -79,61 +86,73 @@ export default function ProductItem() {
             </a>
 
 
-            <button className="btn" disabled={orderNum == 1} onClick={(e) => {
-              setOrderNum((prev) => prev - 1);
-              dispatch({
-                type: "addToBasketState",
-                payload: {
-                  products: basketData.products.map((p) =>
-                    p.productId == +params?.productId ?
-                      productData.current = { productId: +params.productId, quantity: p.quantity - 1 }
-                      : p
-                  )
-                },
-              });
-            }}>-</button>
+            <div className="mt-10">
+              <div className="inline-flex">
+                <button className="bg-gray-300 hover:bg-orange-400 text-gray-800  py-2 px-4 rounded-l" onClick={(e) => {
+                  setOrderNum((prev) => prev - 1);
+                  dispatch({
+                    type: "addToBasketState",
+                    payload: {
+                      products: basketData.products.map((p) =>
+                        p.productId == +params?.productId ?
+                          productData.current = { productId: +params.productId, quantity: p.quantity - 1 }
+                          : p
+                      )
+                    },
+                  });
+                }} disabled={orderNum == 1}>
+                  -
+                </button>
 
-            <p>{orderNum}</p>
+                <button className="bg-gray-300 py-2 px-4">
+                  {orderNum}
+                </button>
 
-            <button className="btn" disabled={orderNum == 3} onClick={(e) => {
-              setOrderNum((prev) => prev + 1);
-              dispatch({
-                type: "addToBasketState",
-                payload: {
-                  products: basketData.products.map((p) =>
+                <button className="bg-gray-300 hover:bg-orange-400 text-gray-800  py-2 px-4 rounded-r" onClick={(e) => {
+                  setOrderNum((prev) => prev + 1);
+                  dispatch({
+                    type: "addToBasketState",
+                    payload: {
+                      products: basketData.products.map((p) =>
 
-                    p.productId == +params?.productId ?
-                      productData.current = { productId: +params.productId, quantity: p.quantity + 1 }
-                      : p
-                  )
-                },
-              });
-            }}>+</button>
+                        p.productId == +params?.productId ?
+                          productData.current = { productId: +params.productId, quantity: p.quantity + 1 }
+                          : p
+                      )
+                    },
+                  });
+                }} disabled={orderNum == 3}>
+                  +
+                </button>
+              </div>
 
-            {showAddButton == true ?
-              ( <button className={'btn'} onClick={(e) => {
-                productData.current = { productId: +params.productId, quantity: orderNum }
-                let currentDate = moment().format('YYYY-MM-DD');
-                dispatch({
-                  type: "addToBasketState",
-                  payload: {
-                    userId: +localStorage.getItem('userId'),
-                    date: currentDate,
-                    products: [...basketData.products, productData.current]
-                  },
-                });
-  
-                // sendRequest(+localStorage.getItem('userId'),currentDate,[...basketData.products, productData.current])
-  
-  
-                // navigate('/basket')
-                setAddToBasket(true)
-  
-              }}>add to cart</button>)
+
+              {showAddButton == true ?
+                (<button  className="bg-orange-400 hover:bg-orange-500 text-gray-800  py-2 px-4 rounded ml-4" onClick={(e) => {
+                  productData.current = { productId: +params.productId, quantity: orderNum }
+                  let currentDate = moment().format('YYYY-MM-DD');
+                  dispatch({
+                    type: "addToBasketState",
+                    payload: {
+                      userId: +localStorage.getItem('userId'),
+                      date: currentDate,
+                      products: [...basketData.products, productData.current]
+                    },
+                  });
+
+                  // sendRequest(+localStorage.getItem('userId'),currentDate,[...basketData.products, productData.current])
+
+
+                  // navigate('/basket')
+                  setAddToBasket(true)
+
+                }}>Add to Basket</button>)
                 : ''
-            }
+              }
 
-           
+            </div>
+
+
 
 
 
