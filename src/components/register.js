@@ -3,7 +3,7 @@ import Input from '../tools/input'
 import { UserContext } from '../context/user-context';
 import { useDispatch } from 'react-redux';
 import UseAsync from '../hooks/useAsync';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { BASE_AUTH_URL } from '../constant/url';
 
 export default function Register() {
@@ -28,7 +28,7 @@ export default function Register() {
           isRegisterSuccessful: true
         },
       })
-      localStorage.setItem('userId' , data?.id)
+      localStorage.setItem('userId', data?.id)
       navigate('/login')
     }
   }
@@ -37,13 +37,26 @@ export default function Register() {
 
   return (
     <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-10 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <svg className="h-12 w-12 text-gray-700 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" /></svg>
-          <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+      <ul className="flex menu menu-horizontal bg-base-500 w-full px-10">
+        <li className='pr-1'>
+          <NavLink to={'/login'}>
+            Login
+          </NavLink>
+        </li>
+        <li className='pr-1'>
+          <NavLink to={'/register'}>
             Register
+          </NavLink>
+        </li>
+      </ul>
+
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-4 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <svg className="h-12 w-12 text-gray-700 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+          </svg>
+          <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            Register new account
           </h2>
         </div>
 
@@ -95,7 +108,7 @@ export default function Register() {
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full justify-center rounded-md bg-orange-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               > Sign up
               </button>
             </div>

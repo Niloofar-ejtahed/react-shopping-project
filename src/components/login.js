@@ -1,36 +1,52 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Input from '../tools/input'
 import { UserContext } from '../context/user-context'
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import UseAsync from '../hooks/useAsync';
 import { BASE_AUTH_URL } from '../constant/url';
 
 export default function Login() {
 
-  const { getData, data, error } = UseAsync();
+  const { getData, data } = UseAsync();
   const value = useContext(UserContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [unauthorized , setUnauthorized ]= useState(false)
 
   useEffect(() => {
-
     if (data?.statusCode == 401) {
-      alert('Unauthorized')
+      setUnauthorized(true)
     }
     if (data?.access_token) {
-      sessionStorage.setItem('access_token', data?.access_token)
-      // sessionStorage.setItem('userIsLogin', true)
-      navigate('/profile')
+      sessionStorage.setItem('access_token', data?.access_token);
+      setUnauthorized(false);
+      navigate('/profile');
     }
   }, [data])
 
 
   return (
     <>
+      <ul className="flex menu menu-horizontal bg-base-500 w-full px-10">
+        <li className='pr-1'>
+          <NavLink to={'/login'}>
+            Login
+          </NavLink>
+        </li>
+        <li className='pr-1'>
+          <NavLink to={'/register'}>
+            Register
+          </NavLink>
+        </li>
+      </ul>
 
-      <h1>{error}</h1>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-10 lg:px-8">
+      {unauthorized 
+      ? (<h1 className='ml-10 mt-4 text-red-600'>No user account has been registered with this email.Please Register.</h1>
+      ) : ''
+      }
+
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-4 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <svg className="h-12 w-12 text-gray-700 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -72,7 +88,7 @@ export default function Login() {
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full justify-center rounded-md bg-orange-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               > Log in
               </button>
             </div>
