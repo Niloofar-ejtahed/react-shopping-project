@@ -60,19 +60,19 @@ export default function ProductItem() {
       payload: {
         userId: +localStorage.getItem('userId'),
         date: currentDate,
-        products: productList.current
+        products: productList.current,
       },
     })
     setAddToBasket(true)
   }
 
   function handleProductList() {
-    productData.current = { productId: +params.productId, quantity: orderNum };
+    productData.current = { productId: +params.productId, quantity: orderNum , totalPrice:data?.price*orderNum };
     if (firstAdd) {
       productList.current = [...basketData?.products, productData.current];
     } else {
       productList.current = basketData?.products.map((p) => p.productId === +params?.productId ?
-        productData.current = { productId: +params.productId, quantity: orderNum }
+        productData.current = { productId: +params.productId, quantity: orderNum ,totalPrice:data?.price*orderNum  }
         : p
       );
     }

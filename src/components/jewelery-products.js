@@ -17,7 +17,7 @@ export default function JeweleryProducts() {
       <LoadingHOC loading={loading}>
         <section className="flex flex-wrap justify-between mx-4">
           {data?.map((item) => {
-            return <ProductCard key={item.id + 'card'}
+            return <ProductCard key={item.id + 'card-jewel'}
               cardData={item} />
           })}
         </section>
