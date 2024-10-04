@@ -19,7 +19,7 @@ export default function Header() {
 
     //get Numbers of products
     useEffect(() => {
-        if (basketData?.products.length > 0) {
+        if (basketData?.products?.length > 0) {
             setProNum(basketData.products.length)
         }
     }, [basketData?.products])
