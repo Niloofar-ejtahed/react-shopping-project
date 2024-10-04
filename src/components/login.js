@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Input from '../tools/input'
 import { UserContext } from '../context/user-context'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import UseAsync from '../hooks/useAsync';
 import { BASE_AUTH_URL } from '../constant/url';
@@ -11,8 +11,8 @@ export default function Login() {
   const { getData, data } = UseAsync();
   const value = useContext(UserContext);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [unauthorized , setUnauthorized ]= useState(false)
+  const [unauthorized, setUnauthorized] = useState(false);
+  const authData = useSelector((state) => state.auth)
 
   useEffect(() => {
     if (data?.statusCode == 401) {
@@ -21,10 +21,26 @@ export default function Login() {
     if (data?.access_token) {
       sessionStorage.setItem('access_token', data?.access_token);
       setUnauthorized(false);
-      navigate('/profile');
+      dispatch({
+        type: "changeLoginState",
+        payload: {
+          email: value.email,
+          pass: value.password,
+          isLogin: true
+        },
+      })
     }
   }, [data])
 
+  function handleSubmit(e) {
+    e.preventDefault()
+    value.setUserName()
+    value.setPassword()
+    getData(BASE_AUTH_URL + 'api/v1/auth/login', 'POST', {
+      email: value.email,
+      password: value.password,
+    });
+  }
 
   return (
     <>
@@ -41,10 +57,11 @@ export default function Login() {
         </li>
       </ul>
 
-      {unauthorized 
-      ? (<h1 className='ml-10 mt-4 text-red-600'>No user account has been registered with this email.Please Register.</h1>
-      ) : ''
+      {unauthorized
+        ? (<h1 className='ml-10 mt-4 text-red-600'>No user account has been registered with this email.Please Register.</h1>) : ''
       }
+
+      {authData?.isLogin ? (<h1 className='ml-10 mt-4 text-green-700'>You are successfuly log in</h1>) : ''}
 
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-4 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -57,25 +74,7 @@ export default function Login() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6" onSubmit={(e) => {
-            e.preventDefault()
-            value.setUserName()
-            value.setPassword()
-            getData(BASE_AUTH_URL + 'api/v1/auth/login', 'POST', {
-              email: value.email,
-              password: value.password,
-            });
-
-            dispatch({
-              type: "changeLoginState",
-              payload: {
-                email: value.email,
-                pass: value.password,
-                isLogin: true
-              },
-            })
-
-          }}>
+          <form action="#" method="POST" className="space-y-6" onSubmit={(e) => { handleSubmit(e) }}>
             <Input type={'email'} id={'input-1'} label={'Email'} required
               onChange={(event) => {
                 value.email = event.target.value

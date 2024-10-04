@@ -14,6 +14,8 @@ export default function Header() {
     useEffect(() => {
         if (sessionStorage.access_token !== undefined || authData?.isLogin === true) {
             setIsLogin(true)
+        } else {
+            setIsLogin(false)
         }
     }, [authData?.isLogin])
 
