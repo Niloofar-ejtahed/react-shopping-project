@@ -9,7 +9,7 @@ export default function Rating({ rate }) {
     <div className="rating rating-xs">
       {ratedList?.map((item, index) => {
         return (
-          <div key={index + 's'}>
+          <div key={index + 'rating'}>
             <input
               type="radio"
               name="rating-2"

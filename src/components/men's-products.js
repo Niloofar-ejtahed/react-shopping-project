@@ -21,7 +21,7 @@ export default function MenProducts() {
 
 
           {data?.map((item) => {
-            return <ProductCard key={item.id + 'card'}
+            return <ProductCard key={item.id + 'card-men'}
               cardData={item} />
           })}
 

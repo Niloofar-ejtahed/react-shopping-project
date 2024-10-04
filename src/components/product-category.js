@@ -35,7 +35,7 @@ export default function ProductCategory() {
                     return <a
                         href={'shop/' + item.replace(/\s+/g, '-').toLowerCase()}
                         id={item}
-                        key={item} className="mb-2 card bg-base-100 w-68 shadow-xl cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-95 hover:bg-gray-300 duration-300 mx-4"
+                        key={item+'card-cat'} className="mb-2 card bg-base-100 w-68 shadow-xl cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-95 hover:bg-gray-300 duration-300 mx-4"
                     >
                         <figure className='h-80'>
                             {images[index]}

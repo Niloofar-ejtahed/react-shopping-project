@@ -18,7 +18,7 @@ export default function ElectronicsProducts() {
 
         <section className="flex flex-wrap justify-between mx-4">
           {data?.map((item) => {
-            return <ProductCard key={item.id + 'card'}
+            return <ProductCard key={item.id + 'card-elec'}
               cardData={item} />
           })}
 

@@ -29,7 +29,7 @@ export default function Shop() {
           {data?.map((item) => {
             return (
               <ProductCard
-                key={item.id + 'card'}
+                key={item.id + 'card-shop'}
                 cardData={item}
               />)
           })
