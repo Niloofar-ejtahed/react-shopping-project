@@ -1,13 +1,15 @@
 import React from 'react'
-import Rating from './rating'
-import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export default function BasketPopup(props) {
 
-    const data = props?.productData
-    const quantity = props?.quantity
+    const data = props?.productData;
+    const quantity = props?.quantity;
+    const navigate = useNavigate();
 
-    const basketData = useSelector((state) => state.basket);
+    function handleGoToBasket() {
+        navigate('/basket')
+    }
 
     return (
         <dialog id="my_modal_3" className="modal" >
@@ -34,7 +36,8 @@ export default function BasketPopup(props) {
                             className="rounded-full bg-orange-500 p-2 text-center" style={{ width: '40px' }}>
                             {quantity}
                         </div>
-                        <button className="bg-gray-300 hover:bg-orange-400 text-gray-800  py-2 px-4 rounded ml-4">Go to Basket</button>
+                        <button className="bg-gray-300 hover:bg-orange-400 text-gray-800  py-2 px-4 rounded ml-4"
+                            onClick={handleGoToBasket}>Go to Basket</button>
                     </div>
 
 
