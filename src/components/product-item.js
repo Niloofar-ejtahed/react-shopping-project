@@ -14,6 +14,7 @@ export default function ProductItem() {
   const basketData = useSelector((state) => state.basket);
   const params = useParams();
   const productData = useRef(null)
+  const productList = useRef(null)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { getData, data, loading } = useAsync();
@@ -28,7 +29,7 @@ export default function ProductItem() {
 
   //update orderNum & handle add to basket button
   useEffect(() => {
-    if (basketData.products.length > 0) {
+    if (basketData?.products?.length > 0) {
       basketData?.products.find(p => {
         if (p.productId === +params.productId) {
           setOrderNum(p.quantity);
@@ -38,6 +39,44 @@ export default function ProductItem() {
       document.getElementById('my_modal_3')?.showModal();
     }
   }, [basketData.products]);
+
+  function navigateToCategory() {
+    navigate('/shop/' + data?.category.replace(/\s+/g, '-').toLowerCase());
+  }
+
+  function handleDecrease() {
+    setOrderNum((prev) => prev - 1);
+  }
+
+  function handleIncrease() {
+    setOrderNum((prev) => prev + 1);
+  }
+
+  function handleAddToBasket() {
+    handleProductList();
+    let currentDate = moment().format('YYYY-MM-DD');
+    dispatch({
+      type: "addToBasketState",
+      payload: {
+        userId: +localStorage.getItem('userId'),
+        date: currentDate,
+        products: productList.current
+      },
+    })
+    setAddToBasket(true)
+  }
+
+  function handleProductList() {
+    productData.current = { productId: +params.productId, quantity: orderNum };
+    if (firstAdd) {
+      productList.current = [...basketData?.products, productData.current];
+    } else {
+      productList.current = basketData?.products.map((p) => p.productId === +params?.productId ?
+        productData.current = { productId: +params.productId, quantity: orderNum }
+        : p
+      );
+    }
+  }
 
   return (
     <div className="h-100 text-center">
@@ -57,63 +96,25 @@ export default function ProductItem() {
             <h4 className='text-2xl font-medium py-4'>{data?.price}$</h4>
             <p>{data?.description}</p>
 
-            <a onClick={() => {
-              navigate('/shop/' + data?.category.replace(/\s+/g, '-').toLowerCase())
-            }} className="mt-6 cursor-pointer bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">
+            <a onClick={navigateToCategory} className="mt-6 cursor-pointer bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">
               {data?.category}
             </a>
 
             <div className="mt-10">
+
               <div className="inline-flex">
-                <button className="bg-gray-300 hover:bg-orange-400 text-gray-800  py-2 px-4 rounded-l" onClick={(e) => {
-                  setOrderNum((prev) => prev - 1);
-                }} disabled={orderNum === 1}>
-                  -
-                </button>
+                <button className="bg-gray-300 hover:bg-orange-400 text-gray-800  py-2 px-4 rounded-l"
+                  onClick={handleDecrease} disabled={orderNum === 1}> - </button>
                 <button className="bg-gray-300 py-2 px-4">
                   {orderNum}
                 </button>
-                <button className="bg-gray-300 hover:bg-orange-400 text-gray-800  py-2 px-4 rounded-r" onClick={(e) => {
-                  setOrderNum((prev) => prev + 1);
-                }} disabled={orderNum === 3}>
-                  +
-                </button>
+                <button className="bg-gray-300 hover:bg-orange-400 text-gray-800  py-2 px-4 rounded-r"
+                  onClick={handleIncrease} disabled={orderNum === 3}> + </button>
               </div>
 
-              {firstAdd === true ?
-                (<button className="bg-orange-400 hover:bg-orange-500 text-gray-800  py-2 px-4 rounded ml-4" onClick={(e) => {
-                  productData.current = { productId: +params.productId, quantity: orderNum };
-                  let currentDate = moment().format('YYYY-MM-DD');
-                  dispatch({
-                    type: "addToBasketState",
-                    payload: {
-                      userId: +localStorage.getItem('userId'),
-                      date: currentDate,
-                      products: [...basketData.products, productData.current]
-                    },
-                  });
-                  setAddToBasket(true)
+              <button className="bg-orange-400 hover:bg-orange-500 text-gray-800  py-2 px-4 rounded ml-4"
+                onClick={handleAddToBasket}>Add to Basket</button>
 
-                }}>Add to Basket</button>)
-                : (<button className="bg-orange-400 hover:bg-orange-500 text-gray-800  py-2 px-4 rounded ml-4" onClick={(e) => {
-                  productData.current = { productId: +params.productId, quantity: orderNum };
-                  let currentDate = moment().format('YYYY-MM-DD');
-                  dispatch({
-                    type: "addToBasketState",
-                    payload: {
-                      userId: +localStorage.getItem('userId'),
-                      date: currentDate,
-                      products: basketData.products.map((p) =>
-                        p.productId === +params?.productId ?
-                          productData.current = { productId: +params.productId, quantity: orderNum }
-                          : p
-                      )
-                    },
-                  });
-                  setAddToBasket(true)
-
-                }}>Add to Basket</button>)
-              }
             </div>
 
             {createPortal(
@@ -128,6 +129,8 @@ export default function ProductItem() {
           </div>
         </div>
       </LoadingHOC>
+
     </div>
   );
+
 }
