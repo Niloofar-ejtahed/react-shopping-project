@@ -8,15 +8,14 @@ export default function FinalProduct({ cardData, defaultQuantity }) {
     const [quantity, setQuantity] = useState(defaultQuantity);
     const basketData = useSelector((state) => state.basket);
     const dispatch = useDispatch();
-    const updateQuantity = useRef(null)
+    const updateQuantity = useRef(null);
 
-
-    async function handleDecrease() {
+    function handleDecrease() {
         setQuantity((prev) => prev - 1);
         updateQuantity.current = basketData?.products.map((p) => p.productId === cardData.id ?
-            { productId: cardData.id, quantity: quantity - 1 }
+            { productId: cardData.id, quantity: quantity - 1, totalPrice: (cardData?.price * (quantity - 1)) }
             : p
-        )
+        );
         dispatch({
             type: "addToBasketState",
             payload: {
@@ -25,12 +24,12 @@ export default function FinalProduct({ cardData, defaultQuantity }) {
         })
     }
 
-    async function handleIncrease() {
+    function handleIncrease() {
         setQuantity((prev) => prev + 1);
         updateQuantity.current = basketData?.products.map((p) => p.productId === cardData.id ?
-            { productId: cardData.id, quantity: quantity + 1 }
+            { productId: cardData.id, quantity: quantity + 1, totalPrice: (cardData?.price * (quantity + 1)) }
             : p
-        )
+        );
         dispatch({
             type: "addToBasketState",
             payload: {
@@ -43,8 +42,7 @@ export default function FinalProduct({ cardData, defaultQuantity }) {
         dispatch({
             type: "addToBasketState",
             payload: {
-                products: basketData?.products.filter((item, index) => item.productId !== id)
-
+                products: basketData?.products.filter((item) => item.productId !== id)
             },
         })
     }
