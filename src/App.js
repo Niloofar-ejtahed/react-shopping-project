@@ -16,6 +16,7 @@ import ElectronicsProducts from "./components/electronics-products";
 import MenProducts from "./components/men's-products";
 import WomenProducts from "./components/women's-products";
 import Register from "./components/register";
+import PageNotFound from "./components/404";
 
 function App() {
 
@@ -39,7 +40,7 @@ function App() {
 
         </Provider>
       ),
-      errorElement: <div>404</div>,
+      errorElement: <PageNotFound/>,
       children: [
         {
           path: '/',
