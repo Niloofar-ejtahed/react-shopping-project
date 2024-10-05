@@ -19,7 +19,6 @@ export default function UseAsync() {
             .then(res => res.json())
             .then((json) => {
                 setData(json);
-                console.log('data',json)
                 setLoading(false)
             })
             .catch((err) => {
