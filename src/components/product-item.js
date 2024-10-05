@@ -58,7 +58,7 @@ export default function ProductItem() {
     dispatch({
       type: "addToBasketState",
       payload: {
-        userId: +localStorage.getItem('userId'),
+        userId: +sessionStorage.getItem('userId'),
         date: currentDate,
         products: productList.current,
       },

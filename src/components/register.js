@@ -28,7 +28,7 @@ export default function Register() {
           isRegisterSuccessful: true
         },
       })
-      localStorage.setItem('userId', data?.id)
+      sessionStorage.setItem('userId', data?.id)
       setTimeout(() => {
         navigate('/login')
       }, 3000);
