@@ -28,10 +28,6 @@ export default function Basket() {
       return p.quantity
     });
 
-    productPriceList.current = basketData?.products.map((p) => {
-      return p.totalPrice
-    });
-
     getData(BASE_URL + 'products');
   }, []);
 
@@ -48,10 +44,17 @@ export default function Basket() {
 
 
   useEffect(() => {
+
+    productPriceList.current = basketData?.products.map((p) => {
+      return p.totalPrice
+    });
+    sum.current = productPriceList.current.reduce(function (cnt, o) { return cnt + o; }, 0);
+
     if (basketData?.products.length === 0) {
       setFinalProducts(null);
     }
     basketData?.products.forEach(product => {
+
       finalProducts?.map((p) => {
         if (p.id === product.productId) {
           result.push(p)
@@ -78,16 +81,21 @@ export default function Basket() {
 
             </section>
 
-            <section className="m-4 w-2/5">
-              <div className="bg-base-100 p-2 shadow-xl m-1 my-4 shadow-xl ">
-                <span className='font-medium ml-2'> total = </span>
-                <span>{sum.current} $</span>
+            <section className="p-4 mt-10 w-2/5">
+              <div className="p-2 mb-10">
+                <span className='font-medium ml-2'> Total shopping cart: </span>
+                <span className='font-medium ml-2 text-xl'>{sum.current} $</span>
               </div>
+
+              <button className="bg-orange-400 hover:bg-orange-500 text-gray-800 py-2 px-4 rounded ml-4">
+                Confirm & Complete Your Order
+              </button>
+
             </section>
 
           </div>) : (
           <section className="m-4 w-full">
-            <div className="bg-base-100 p-2 shadow-xl m-1 my-4 shadow-xl ">
+            <div className="bg-base-100 p-2 shadow-xl mx-1 my-4 ">
               <h1 className='text-xl font-semibold mb-4'>Your shopping cart is empty!</h1>
               <p>You can go to the following pages to see more products</p>
               <button className="mt-4 bg-transparent hover:bg-orange-500 text-gray-600 font-semibold hover:text-white py-2 px-4 border border-gray-600 hover:border-transparent rounded"
