@@ -9,7 +9,6 @@ import { useState } from "react";
 import { UserContext } from "./context/user-context";
 import { Provider } from "react-redux";
 import { Store } from "./redux/store";
-import Profile from "./components/user-profile";
 import Basket from "./components/basket";
 import JeweleryProducts from "./components/jewelery-products";
 import ElectronicsProducts from "./components/electronics-products";
@@ -77,10 +76,6 @@ function App() {
         {
           path: '/register',
           element: <Register />
-        },
-        {
-          path: '/profile',
-          element: <Profile />
         },
         {
           path: '/basket',
