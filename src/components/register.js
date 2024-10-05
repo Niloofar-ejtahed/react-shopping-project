@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Input from '../tools/input'
 import { UserContext } from '../context/user-context';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import UseAsync from '../hooks/useAsync';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { BASE_AUTH_URL } from '../constant/url';
@@ -9,15 +9,15 @@ import { BASE_AUTH_URL } from '../constant/url';
 export default function Register() {
 
   const { getData, data } = UseAsync();
-  const [validEmail, setValidEmail] = useState();
+  const [error, setError] = useState();
 
   const value = useContext(UserContext);
+  const registerData = useSelector((state) => state.register)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (data?.id) {
-      alert('You regestered successfuly.Please log in to your profile!')
       dispatch({
         type: "registerState",
         payload: {
@@ -29,10 +29,18 @@ export default function Register() {
         },
       })
       localStorage.setItem('userId', data?.id)
-      navigate('/login')
+      setTimeout(() => {
+        navigate('/login')
+      }, 3000);
+    } 
+
+    if(registerData?.isRegisterSuccessful === false) {
+      data?.message?.map((err) => {
+        setError(err)
+      })
     }
   }
-    , [data?.id])
+    , [data])
 
 
   return (
@@ -50,6 +58,11 @@ export default function Register() {
         </li>
       </ul>
 
+      {data?.id ? (<h1 className='ml-10 mt-4 text-green-700'>You regestered successfuly.Please log in to your profile!</h1>)
+        : ''}
+
+      {registerData?.isRegisterSuccessful === false ? (<h1 className='ml-10 mt-4 text-red-600'>{error}</h1>) : ''}
+
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-4 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <svg className="h-12 w-12 text-gray-700 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -65,38 +78,20 @@ export default function Register() {
             e.preventDefault()
             value.setUserName()
             value.setPassword()
-
-            // getData(BASE_AUTH_URL + 'api/v1/users/is-available', 'POST', {
-            //   email: value.email,
-            // });
-
-            // if(data?.isAvailable===true){
-            //   setValidEmail('')
-
             getData(BASE_AUTH_URL + 'api/v1/users/', 'POST', {
               name: value.userName,
               email: value.email,
               password: value.password,
               avatar: 'https://picsum.photos/800',
             });
-
-
-
           }}
-          // }else{
-          //   setValidEmail('The email is already registered')
-          // }
 
-
-
-          // }}
           >
             <Input type={'text'} id={'input-1'} label={'User Name'} required
               onChange={(event) => {
                 value.userName = event.target.value
               }} />
             <Input type={'email'} id={'input-3'} label={'Email'}
-              error={validEmail} required
               onChange={(event) => {
                 value.email = event.target.value
               }} />
