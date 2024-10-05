@@ -29,7 +29,7 @@ export default function Home() {
                     <h1 className='font-extrabold py-0' style={{ fontSize: '50px' }}>ONLINE</h1>
                     <h1 className='font-semibold py-0' style={{ fontSize: '50px' }}>STORE</h1>
                     <p className='w-3/4 mb-4'>
-                        Lorem ipsum odor amet, consectetuer adipiscing elit. Qper tincidunt porta scelerisque. Ipsum condimentum lectus inceptos penatibus ex turpis quis ex varius. Justo sit ac nostra; mattis accumsan pharetra. porttitor risus dictum gravida blandit.
+                        Experience the convenience of online shopping, where you can browse our wide selection of products from the comfort of your home, 24/7.
                     </p>
                     <button className="bg-transparent hover:bg-orange-500 text-gray-600 font-semibold hover:text-white py-2 px-4 border border-gray-600 hover:border-transparent rounded"
                         onClick={() => {
