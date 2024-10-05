@@ -3,7 +3,6 @@ import Header from "./components/header";
 import Home from "./components/home";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom"
 import Shop from "./components/shop";
-import About from "./components/about";
 import Login from "./components/login";
 import ProductItem from "./components/product-item";
 import { useState } from "react";
@@ -69,10 +68,6 @@ function App() {
         {
           path: "/shop/women's-clothing",
           element: <WomenProducts />,
-        },
-        {
-          path: '/about',
-          element: <About />
         },
         {
           path: '/login',

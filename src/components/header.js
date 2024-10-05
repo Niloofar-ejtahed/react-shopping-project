@@ -43,11 +43,6 @@ export default function Header() {
                             Shop
                         </NavLink>
                     </li>
-                    <li>
-                        <NavLink to={'/about'}>
-                            About
-                        </NavLink>
-                    </li>
                 </div>
 
                 <a href='/'>
