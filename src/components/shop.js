@@ -22,10 +22,6 @@ export default function Shop() {
 
       <LoadingHOC loading={loading}>
         <section className="flex flex-wrap justify-between mx-4">
-
-        </section>
-
-        <section className="flex flex-wrap justify-between mx-4">
           {data?.map((item) => {
             return (
               <ProductCard
