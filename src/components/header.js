@@ -7,7 +7,7 @@ export default function Header() {
     const authData = useSelector((state) => state.auth);
     const basketData = useSelector((state) => state.basket);
     const [isLogin, setIsLogin] = useState(false);
-    const [proNum, setProNum] = useState();
+    const [proNum, setProNum] = useState(null);
     const dispatch = useDispatch();
 
     //switch login ang logout buttons
@@ -23,6 +23,8 @@ export default function Header() {
     useEffect(() => {
         if (basketData?.products?.length > 0) {
             setProNum(basketData.products.length)
+        }else{
+            setProNum(null)  
         }
     }, [basketData?.products])
 

@@ -48,6 +48,9 @@ export default function Basket() {
 
 
   useEffect(() => {
+    if (basketData?.products.length === 0) {
+      setFinalProducts(null);
+    }
     basketData?.products.forEach(product => {
       finalProducts?.map((p) => {
         if (p.id === product.productId) {
@@ -57,18 +60,18 @@ export default function Basket() {
       })
     });
 
-  }, [basketData?.products])
+  }, [basketData])
 
 
   return (
-    <div className='text-center flex'>
+    <div className='h-100 p-4 text-center px-14'>
       <LoadingHOC loading={loading}>
 
         {finalProducts?.length > 0 ? (
           <div className='w-full flex'>
             <section className="m-4 w-3/5">
               {finalProducts?.map((item, index) => {
-                return <FinalProduct key={item.id + 'card'}
+                return <FinalProduct key={item.id + 'card' + index}
                   cardData={item}
                   defaultQuantity={productQuantityList?.current[index]} />
               })}
@@ -96,9 +99,6 @@ export default function Basket() {
             </div>
           </section>
         )}
-
-
-
 
       </LoadingHOC>
     </div >
